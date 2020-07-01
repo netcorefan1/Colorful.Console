@@ -38,11 +38,12 @@ namespace Colorful
         /// <param name="color">The color to be applied to the target.</param>
         /// <param name="matchHandler">A delegate instance which describes a transformation that
         /// can be applied to the target.</param>
-        public Styler(string target, Color color, MatchFound matchHandler)
+        /// <param name="filterMatchesByIndex">Allor matches filtering. Default return all matches. By specifying the index we get the equivalent match from the array</param>
+        public Styler(string target, Color color, MatchFound matchHandler, params int[] filterMatchesByIndex)
         {
-            Target = new TextPattern(target);
-            Color = color;
-            MatchFoundHandler = matchHandler;
+	        Target = new TextPattern(target, filterMatchesByIndex);
+	        Color = color;
+	        MatchFoundHandler = matchHandler;
         }
 
         public bool Equals(Styler other)
