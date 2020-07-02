@@ -53,18 +53,27 @@ namespace Colorful
         /// <param name="input">The string to which the TextPattern instance should be compared.</param>
         /// <returns>Returns a collection of the locations in the string under comparison that
         /// match the TextPattern instance.</returns>
-        public override IEnumerable<string> GetMatches(string input)
-        {
-            MatchCollection matches = regexPattern.Matches(input);
-
-            if (matches.Count == 0)
-            {
-                yield break;
-            }
-
-            foreach (Match match in matches)
-            {
-                yield return match.Value;
+        /// <returns>Only returns the matches specified in the index array (the default empty array will return all matches.</returns>
+       public override IEnumerable<string> GetMatches(string input, params int[] filterMatchesByIndex)
+       {
+	        MatchCollection matches = regex.Matches(input);
+	        if (filterMatchesByIndex.Lenght == 0)
+	        {
+		        foreach (Match match in matches)
+		        {
+			        yield return match.Value;
+		        }
+	        }
+	        else
+	        {
+		        foreach (Match match in matches)
+		        {
+			        foreach (int i in filterMatchesByIndex)
+			        {
+				        if (match.Index == i) yield return match.Value;
+				        break;
+			        }
+		        }
             }
         }
     }
