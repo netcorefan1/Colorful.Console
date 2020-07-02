@@ -34,9 +34,10 @@ namespace Colorful
         /// <param name="color">The color to be applied to the target.</param>
         /// <param name="matchHandler">A delegate instance which describes a transformation that
         /// can be applied to the target.</param>
-        public void AddStyle(string target, Color color, Styler.MatchFound matchHandler)
+        /// <param name="filterMatchesByIndex">An array contain index of the matches to filter.</param>
+        public void AddStyle(string target, Color color, Styler.MatchFound matchHandler, params int[] filterMatchesByIndex)
         {
-            Styler styler = new Styler(target, color, matchHandler);
+            Styler styler = new Styler(target, color, matchHandler, filterMatchesByIndex);
 
             Styles.Add(styler);
         }
@@ -48,10 +49,11 @@ namespace Colorful
         /// <param name="color">The color to be applied to the target.</param>
         /// <param name="matchHandler">A delegate instance which describes a simpler transformation that
         /// can be applied to the target.</param>
-        public void AddStyle(string target, Color color, Styler.MatchFoundLite matchHandler)
+        /// <param name="filterMatchesByIndex">An array contain index of the matches to filter.</param>
+        public void AddStyle(string target, Color color, Styler.MatchFoundLite matchHandler, params int[] filterMatchesByIndex)
         {
             string Wrapper(string s, MatchLocation l, string m) => matchHandler.Invoke(m);
-            Styler styler = new Styler(target, color, Wrapper);
+            Styler styler = new Styler(target, color, Wrapper, filterMatchesByIndex);
 
             Styles.Add(styler);
         }
@@ -61,10 +63,11 @@ namespace Colorful
         /// </summary>
         /// <param name="target">The string to be styled.</param>
         /// <param name="color">The color to be applied to the target.</param>
-        public void AddStyle(string target, Color color)
+        /// <param name="filterMatchesByIndex">An array contain index of the matches to filter.</param>
+        public void AddStyle(string target, Color color, params int[] filterMatchesByIndex)
         {
             string Handler(string s, MatchLocation l, string m) => m;
-            Styler styler = new Styler(target, color, Handler);
+            Styler styler = new Styler(target, color, Handler, filterMatchesByIndex);
 
             Styles.Add(styler);
         }
